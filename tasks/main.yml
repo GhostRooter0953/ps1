@@ -1,0 +1,8 @@
+---
+- name: install
+  include_tasks: install.yml
+  when: ps1_setup == "full" or ps1_setup == "install"
+
+- name: configure
+  import_tasks: configure.yml
+  when: ps1_setup == "full" or ps1_setup == "configure"

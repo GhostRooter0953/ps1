@@ -1,0 +1,21 @@
+{% raw %}backtick 1 3600 3600 /bin/bash -c 'echo ${LC_HOST:-`/bin/hostname -f`}'
+hardstatus alwayslastline
+hardstatus string '%{= kW}[%1`%{W}]%= %{= kw}%-w%{+b Wk} %n*%t%?(%u)%? %{-}%+w %=%{W}[%l%{W}]'
+
+defscrollback 5000
+startup_message off
+
+attrcolor b ".I"
+termcapinfo xterm 'Co#256:AB=\E[48;5;%dm:AF=\E[38;5;%dm'
+defbce on
+
+#mousetrack on
+startup_message off
+#layout save default
+#layout autosave on
+
+bindkey "^[[1;5D" focus left
+bindkey "^[[1;5C" focus right
+bindkey "^[[1;5A" focus up
+bindkey "^[[1;5B" focus down
+{% endraw %}

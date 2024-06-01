@@ -1,0 +1,6 @@
+---
+- name: package installation
+  apt:
+    name: "{{ ps1_packages }}"
+    update_cache: true
+    cache_valid_time: 86400

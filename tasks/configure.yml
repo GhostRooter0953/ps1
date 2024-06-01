@@ -1,0 +1,58 @@
+---
+- name: gather required facts
+  setup:
+    gather_subset: [virtual]
+  when: ansible_virtualization_type is not defined
+
+- name: common profile
+  template:
+    src: profile.j2
+    dest: /etc/profile.d/ps1.sh
+  when: ansible_virtualization_type != 'lxc'
+
+- name: lxc profile
+  template:
+    src: profile-lxc.j2
+    dest: /etc/profile.d/ps1.sh
+  when: ansible_virtualization_type == 'lxc'
+
+- name: user screenrc
+  template:
+    src: screenrc-user.j2
+    dest: '~/.screenrc'
+
+- name: global screenrc
+  blockinfile:
+    dest: /etc/screenrc
+    create: true
+    content: |
+      # config.custom
+      shell -$SHELL
+      startup_message off
+      termcapinfo xterm* ti@:te@
+      defscrollback 1000
+      #layout save default
+      #layout autosave on
+
+- name: bashrc global
+  lineinfile:
+    dest: /etc/bash.bashrc
+    line: '. /etc/profile.d/ps1.sh'
+
+- name: bashrc user
+  lineinfile:
+    dest: '~/.bashrc'
+    line: '. /etc/profile.d/ps1.sh'
+
+- name: sshd AcceptEnv
+  lineinfile:
+    dest: /etc/ssh/sshd_config
+    regexp: 'AcceptEnv.*\sLC_\*'
+    line: 'AcceptEnv LC_*'
+  notify: ssh restart
+
+- name: ssh SendEnv
+  lineinfile:
+    dest: /etc/ssh/ssh_config
+    regexp: 'SendEnv.*\sLC_\*'
+    line: 'SendEnv LC_*'

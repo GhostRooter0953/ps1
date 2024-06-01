@@ -1,0 +1,8 @@
+{% raw %}test x"${LC_HOST}" != x"" && {
+    export PS1="\u@${LC_HOST}/\h (\D{%Y%m%d-%H%M-%Z}):\w\\$ "
+    export PROMPT_COMMAND='printf "\033]0;%s@%s:%s\007" "${USER}" "${LC_HOST}/${HOSTNAME%%.*}" "${PWD/#$HOME/~}"'
+    export HISTFILE=~/.ssh/.bash_history
+}
+export HISTTIMEFORMAT="%d/%m/%y %T "
+export HISTSIZE=5000
+{% endraw %}

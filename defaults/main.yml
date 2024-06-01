@@ -1,0 +1,6 @@
+---
+ps1_setup: full
+
+ps1_packages:
+  - openssh-server
+  - screen
